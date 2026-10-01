@@ -2,14 +2,506 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title> My first sait</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dota 2 — Легендарная MOBA</title>
+    <!-- Подключаем шрифты Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; max-width: 600px; margin: 2em auto;}
+        /* Общие сбросы */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #0b0e14;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Цветовая палитра Dota 2 (примерная) */
+        :root {
+            --dota-red: #b8232f;
+            --dota-dark: #0b0e14;
+            --dota-gold: #c9a34e;
+            --dota-gray: #2a2f3a;
+            --dota-light: #e0e0e0;
+        }
+
+        /* Шапка */
+        header {
+            position: relative;
+            background: linear-gradient(135deg, #1a1e26 0%, #0b0e14 100%);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--dota-red);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.7);
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--dota-red);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 28px;
+            color: #fff;
+            box-shadow: 0 0 15px var(--dota-red);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 28px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 2px 2px 0 var(--dota-red);
+        }
+
+        .logo-text span {
+            color: var(--dota-gold);
+            text-shadow: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--dota-light);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s, border-bottom 0.3s;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
+        }
+
+        nav a:hover {
+            color: var(--dota-gold);
+            border-bottom: 2px solid var(--dota-gold);
+        }
+
+        /* Герой-секция */
+        .hero {
+            position: relative;
+            height: 90vh;
+            min-height: 600px;
+            background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 14, 20, 0.8);
+            backdrop-filter: blur(3px);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 4px 4px 0 var(--dota-red), 8px 8px 0 rgba(0,0,0,0.3);
+            margin-bottom: 20px;
+            letter-spacing: 4px;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #ccc;
+            margin-bottom: 40px;
+            font-weight: 300;
+            text-shadow: 1px 1px 3px #000;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--dota-red);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 16px 45px;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 2px solid var(--dota-red);
+            border-radius: 4px;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(184, 35, 47, 0.5);
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--dota-red);
+            box-shadow: 0 0 30px var(--dota-red);
+        }
+
+        /* Секция с героями */
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.8rem;
+            text-align: center;
+            margin: 80px 0 20px;
+            color: #fff;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 3px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: var(--dota-red);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .heroes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px 60px 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-card {
+            background: var(--dota-gray);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #3a3f4a;
+            text-align: center;
+            padding-bottom: 20px;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(184, 35, 47, 0.3);
+            border-color: var(--dota-red);
+        }
+
+        .hero-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            border-bottom: 3px solid var(--dota-red);
+        }
+
+        /* Имитация разных героев */
+        .hero-img.pudge { background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/pudge.png'); background-color: #2a1f1a; }
+        .hero-img.invoker { background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/invoker.png'); background-color: #1e2a3a; }
+        .hero-img.lina { background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lina.png'); background-color: #3a1e1e; }
+        .hero-img.juggernaut { background-image: url('https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/juggernaut.png'); background-color: #1e2a1e; }
+
+        /* Если изображения не загрузятся, покажется цветной фон */
+        .hero-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.8));
+        }
+
+        .hero-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin: 20px 0 10px;
+            color: var(--dota-gold);
+            text-transform: uppercase;
+        }
+
+        .hero-card p {
+            padding: 0 20px;
+            color: #bbb;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .attr {
+            display: inline-block;
+            background: #1e222a;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--dota-gold);
+            border: 1px solid var(--dota-gold);
+        }
+
+        /* Секция с фактами */
+        .facts-section {
+            background: #12161e;
+            padding: 60px 40px;
+            border-top: 2px solid var(--dota-red);
+            border-bottom: 2px solid var(--dota-red);
+        }
+
+        .facts-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .fact-item {
+            flex: 1 1 200px;
+            text-align: center;
+            padding: 20px;
+            background: rgba(42, 47, 58, 0.5);
+            border-radius: 10px;
+            border-left: 4px solid var(--dota-red);
+        }
+
+        .fact-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--dota-gold);
+            line-height: 1;
+        }
+
+        .fact-text {
+            font-size: 1rem;
+            color: #aaa;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Подвал */
+        footer {
+            background: #080a0e;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid #2a2f3a;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        footer .footer-logo {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        footer .footer-logo span {
+            color: var(--dota-red);
+        }
+
+        footer a {
+            color: var(--dota-gold);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Адаптив */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .heroes-grid {
+                padding: 20px 20px 60px;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Hello, world!</h1>
-    <p>This sait set in help GitHub Pages</p>
-    <p> 111111 </p>
+
+    <!-- Шапка сайта -->
+    <header>
+        <div class="logo">
+            <div class="logo-icon">D</div>
+            <div class="logo-text">DOTA<span>2</span></div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Главная</a></li>
+                <li><a href="#">Герои</a></li>
+                <li><a href="#">Патчи</a></li>
+                <li><a href="#">Киберспорт</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Главный баннер -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>DOTA 2</h1>
+            <p>Легендарная MOBA, где стратегия, командная игра и мастерство решают всё. Присоединяйся к миллионам игроков по всему миру.</p>
+            <a href="#" class="btn" id="playBtn">Играть бесплатно</a>
+        </div>
+    </section>
+
+    <!-- Секция героев -->
+    <h2 class="section-title">Легендарные герои</h2>
+    <div class="heroes-grid">
+        <!-- Карточка 1 -->
+        <div class="hero-card">
+            <div class="hero-img pudge"></div>
+            <h3>Pudge</h3>
+            <p>Мясник с крюком, способный вытащить врага из самой гущи боя и разорвать его на части.</p>
+            <span class="attr">Сила</span>
+        </div>
+        <!-- Карточка 2 -->
+        <div class="hero-card">
+            <div class="hero-img invoker"></div>
+            <h3>Invoker</h3>
+            <p>Маг с десятью заклинаниями, комбинации которых меняют исход любой битвы.</p>
+            <span class="attr">Интеллект</span>
+        </div>
+        <!-- Карточка 3 -->
+        <div class="hero-card">
+            <div class="hero-img lina"></div>
+            <h3>Lina</h3>
+            <p>Огненная волшебница, сжигающая врагов своими смертоносными заклинаниями.</p>
+            <span class="attr">Интеллект</span>
+        </div>
+        <!-- Карточка 4 -->
+        <div class="hero-card">
+            <div class="hero-img juggernaut"></div>
+            <h3>Juggernaut</h3>
+            <p>Мастер клинка, чей вихрь и неуязвимость внушают страх даже самым сильным противникам.</p>
+            <span class="attr">Ловкость</span>
+        </div>
+    </div>
+
+    <!-- Секция с фактами -->
+    <section class="facts-section">
+        <div class="facts-container">
+            <div class="fact-item">
+                <div class="fact-number">120+</div>
+                <div class="fact-text">Уникальных героев</div>
+            </div>
+            <div class="fact-item">
+                <div class="fact-number">10M+</div>
+                <div class="fact-text">Игроков онлайн</div>
+            </div>
+            <div class="fact-item">
+                <div class="fact-number">$40M+</div>
+                <div class="fact-text">Призовой фонд TI</div>
+            </div>
+            <div class="fact-item">
+                <div class="fact-number">2013</div>
+                <div class="fact-text">Год официального релиза</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="footer-logo">DOTA<span>2</span> FAN SITE</div>
+        <p>Этот сайт создан в учебных целях и не является официальным продуктом Valve Corporation.</p>
+        <p>Все права на Dota 2 принадлежат <a href="https://www.valvesoftware.com/" target="_blank">Valve Corporation</a>.</p>
+        <p>&copy; 2025 Dota 2 Fan Site. Все материалы взяты из открытых источников.</p>
+    </footer>
+
+    <!-- Немного JavaScript для интерактивности -->
+    <script>
+        // Кнопка "Играть бесплатно" - просто выводит сообщение
+        document.getElementById('playBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Приятной игры! (Это демо-сайт, здесь нет реальной ссылки на игру)');
+        });
+
+        // Плавная прокрутка для навигации (заглушка, так как ссылки ведут на #)
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Это демонстрационная навигация. В реальном сайте здесь были бы страницы.');
+            });
+        });
+
+        // Небольшой эффект при загрузке - карточки героев появляются с задержкой
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.hero-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 200 * index);
+            });
+        });
+    </script>
 </body>
 </html>
